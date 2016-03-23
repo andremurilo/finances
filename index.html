@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+'<!DOCTYPE html>
 <html lang="pt-br"  ng-app="finances">
 <head>
 	<meta charset="UTF-8">
@@ -8,6 +8,7 @@
 	<script src="lib/angular/angular.min.js"></script>
 	<script src="lib/jquery/dist/jquery.min.js"></script>
 	<script src="lib/Materialize/dist/js/materialize.min.js"></script>
+	<script src="lib/chart/Chart.min.js"></script>
 
 	<link href="lib/Materialize/dist/css/materialize.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -20,6 +21,7 @@
 			<div class="brand-logo center">{{app | uppercase}}</div>
 		</div>
 	</nav>
+	{{dataGet[1].mes}}
 	<div class="container">
 		<form action="#!">
 			<div class="row">
@@ -41,6 +43,9 @@
 				</div>
 			</div>
 		</form>
+		<div>
+			<canvas id="graficoResumo" width="400" height="400"></canvas>
+		</div>
 	</div>
 
 	<script>
