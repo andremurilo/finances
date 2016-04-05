@@ -1,0 +1,20 @@
+<form action="#!">
+	<div class="row">
+		<div class="input-field col s12">
+			<select class="browser-default" name="tipo" id="tipo" ng-model="data.tipo" ng-options="tipo for tipo in tipos">
+				<option value="" disabled selected>Tipo de Despesa</option>
+			</select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="input-field col s12">
+          <input id="valor" type="number" class="validate" ng-model="data.valor">
+          <label for="valor">Valor da Compra</label>
+        </div>
+	</div>
+	<div class="row">
+		<div class="input-field col s12">
+			<a ng-click="postApi(data)" class="waves-effect waves-light btn-large" style="width:100%">Enviar</a>
+		</div>
+	</div>
+</form>

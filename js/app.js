@@ -1,4 +1,4 @@
-var app = angular.module('finances', []);
+var app = angular.module('finances', ['zingchart-angularjs']);
 
 app.controller('main', function($scope, $http){
 	$scope.app = "Finanças";
@@ -18,68 +18,10 @@ app.controller('main', function($scope, $http){
 		"outros"
 	];
 
-	var dataChart = {};
-	var ctx = document.getElementById("graficoResumo").getContext("2d");
-	Chart.defaults.global = {
-		responsive: true
-	}
-	
-
-	var getApi = function(){
-		$http.get("https://sheetsu.com/apis/ede2a696").success(function(api){
-			dataChart.labels = api.result.map(function(mes){
-				return mes.mes;
-			});
-
-			dataChart.datasets = [
-				{
-					label: "Receita",
-					fillColor: "rgba(220,220,220,0.5)",
-		            strokeColor: "rgba(220,220,220,0.8)",
-		            highlightFill: "rgba(220,220,220,0.75)",
-		            highlightStroke: "rgba(220,220,220,1)",
-					data: api.result.map(function(data){
-						return data.receita;
-					})
-				},
-				{
-					label: "Despesa",
-					fillColor: "rgba(151,187,205,0.5)",
-		            strokeColor: "rgba(151,187,205,0.8)",
-		            highlightFill: "rgba(151,187,205,0.75)",
-		            highlightStroke: "rgba(151,187,205,1)",
-					data: api.result.map(function(data){
-						return data.despesa;
-					})
-				},
-				{
-					label: "Investimento",
-					fillColor: "rgba(11,187,205,0.5)",
-		            strokeColor: "rgba(151,187,205,0.8)",
-		            highlightFill: "rgba(151,187,205,0.75)",
-		            highlightStroke: "rgba(151,187,205,1)",
-					data: api.result.map(function(data){
-						return data.investimento;
-					})
-				}
-			];
-
-			console.log(dataChart);
-			var graficoResumo = new Chart(ctx).Bar(dataChart, {
-				barShowStroke: false
-			});
-		});
-	}
-
-	getApi();
-
-	
-
 	$scope.postApi = function(data){
 		var mes;
 		var date = new Date();
-		var ano = date.getFullYear();
-		ano = ano.toString().slice(2);
+		var ano = date.getFullYear().toString().slice(2);
 
 		var meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
@@ -98,6 +40,54 @@ app.controller('main', function($scope, $http){
 			});
 		}
 	}
+});
+
+app.controller('graficos', function($scope, $http){
+
+	var getApi = function(){
+		$http.get("https://sheetsu.com/apis/ede2a696").success(function(api){
+			$scope.resumoData = {
+				type: "bar",
+				"plot": {
+					"animation": {
+							speed: 2000,
+							effect: 4,
+							method: 5,
+							sequence: 1
+						}
+					},
+				"scale-x": {
+					labels: api.result.map(function(data){
+								return data.mes;
+							})
+				},
+				"scale-y": {
+						"values": "0:2250:250"
+					},
+				series: [
+					{	
+						"background-color": ,
+						"values": api.result.map(function(data){
+							return parseInt(data.receita);
+						})
+					},
+					{
+						"values": api.result.map(function(data){
+							return parseInt(data.investimento);
+						})
+					},
+					{
+						"values": api.result.map(function(data){
+							return parseInt(data.despesa);
+						})
+					}
+				]
+				
+			}
+			console.log($scope.resumoData);
+		});
+	}
+	getApi();
 });
 
 app.filter("camel", function () {

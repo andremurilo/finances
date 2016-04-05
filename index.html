@@ -1,4 +1,4 @@
-'<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br"  ng-app="finances">
 <head>
 	<meta charset="UTF-8">
@@ -8,49 +8,60 @@
 	<script src="lib/angular/angular.min.js"></script>
 	<script src="lib/jquery/dist/jquery.min.js"></script>
 	<script src="lib/Materialize/dist/js/materialize.min.js"></script>
-	<script src="lib/chart/Chart.min.js"></script>
+	<script src="lib/zingchart/zingchart.min.js"></script>
+	<script src="lib/zingchart-angularjs/zingchart-angularjs.js"></script>
 
 	<link href="lib/Materialize/dist/css/materialize.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<script src="js/app.js"></script>
 </head>
-<body ng-controller="main">
+<body>
 	<nav>
 		<div class="nav-wrapper teal lighten-2">
-			<div class="brand-logo center">{{app | uppercase}}</div>
+			<div class="brand-logo center"></div>
 		</div>
 	</nav>
-	{{dataGet[1].mes}}
-	<div class="container">
-		<form action="#!">
+	
+	      <ul class="tabs teal lighten-2">
+	        <li class="tab col s3"><a href="#main">Test 1</a></li>
+	        <li class="tab col s3"><a class="active" href="#graficos">Test 2</a></li>
+	      </ul>
+	   
+	    <div id="main" class="col s12" ng-controller="main">
+			<form action="#!">
+				<div class="row">
+					<div class="input-field col s12">
+						<select class="browser-default" name="tipo" id="tipo" ng-model="data.tipo" ng-options="tipo for tipo in tipos">
+							<option value="" disabled selected>Tipo de Despesa</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+			          <input id="valor" type="number" class="validate" ng-model="data.valor">
+			          <label for="valor">Valor da Compra</label>
+			        </div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<a ng-click="postApi(data)" class="waves-effect waves-light btn-large" style="width:100%">Enviar</a>
+					</div>
+				</div>
+			</form>
+	    </div>
+	    <div id="graficos" class="col s12" ng-controller="graficos">
 			<div class="row">
-				<div class="input-field col s12">
-					<select class="browser-default" name="tipo" id="tipo" ng-model="data.tipo" ng-options="tipo for tipo in tipos">
-						<option value="" disabled selected>Tipo de Despesa</option>
-					</select>
+				<div class="col s12">
+					<zingchart id="resumo" zc-json="resumoData" zc-width="100%" zc-height="400px"> </zingchart>
 				</div>
 			</div>
-			<div class="row">
-				<div class="input-field col s12">
-		          <input id="valor" type="number" class="validate" ng-model="data.valor">
-		          <label for="valor">Valor da Compra</label>
-		        </div>
-			</div>
-			<div class="row">
-				<div class="input-field col s12">
-					<a ng-click="postApi(data)" class="waves-effect waves-light btn-large" style="width:100%">Enviar</a>
-				</div>
-			</div>
-		</form>
-		<div>
-			<canvas id="graficoResumo" width="400" height="400"></canvas>
-		</div>
-	</div>
+	    </div>
 
 	<script>
-		$(document).ready(function() {
+		$(document).ready(function(){
 		    $('select').material_select();
+		    $('ul.tabs').tabs();
 		  });
 	</script>
 </body>
