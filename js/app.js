@@ -66,7 +66,7 @@ app.controller('graficos', function($scope, $http){
 					},
 				series: [
 					{	
-						"background-color": ,
+						// "background-color": ,
 						"values": api.result.map(function(data){
 							return parseInt(data.receita);
 						})
